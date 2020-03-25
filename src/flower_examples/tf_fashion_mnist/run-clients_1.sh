@@ -18,9 +18,21 @@
 set -e
 cd "$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"/../../../
 
-# Start a Flower server
-python -m flower_examples.tf_cifar.server \
-  --rounds=20 \
-  --sample_fraction=0.1 \
-  --min_sample_size=75 \
-  --min_num_clients=75
+GRPC_SERVER_ADDRESS="52.59.227.62"
+GRPC_SERVER_PORT=8080
+NUM_CLIENTS=100
+I_START=0
+I_END=49
+
+echo "Starting $NUM_CLIENTS clients."
+for ((i = $I_START; i <= $I_END; i++))
+do
+    echo "Starting client(cid=$i) with partition $i out of $NUM_CLIENTS clients."
+    python -m flower_examples.tf_fashion_mnist.client \
+      --cid=$i \
+      --partition=$i \
+      --clients=$NUM_CLIENTS \
+      --grpc_server_address=$GRPC_SERVER_ADDRESS \
+      --grpc_server_port=$GRPC_SERVER_PORT &
+done
+echo "Started $NUM_CLIENTS clients."

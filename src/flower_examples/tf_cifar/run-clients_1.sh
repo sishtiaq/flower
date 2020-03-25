@@ -18,11 +18,11 @@
 set -e
 cd "$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"/../../../
 
-GRPC_SERVER_ADDRESS="[::]"
+GRPC_SERVER_ADDRESS="52.59.227.62"
 GRPC_SERVER_PORT=8080
 NUM_CLIENTS=100
 I_START=0
-I_END=99
+I_END=49
 
 echo "Starting $NUM_CLIENTS clients."
 for ((i = $I_START; i <= $I_END; i++))
